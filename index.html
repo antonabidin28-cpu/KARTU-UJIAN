@@ -67,20 +67,20 @@
         .identity-grid .colon { text-align: center; }
         .identity-grid .value { font-weight: bold; word-break: break-word; }
 
-        /* Styling Tabel Jadwal */
+        /* Styling Tabel Jadwal (Diperkecil agar muat 5 hari) */
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7.5px; 
+            font-size: 6.5px; /* Diperkecil dari 7.5px */
             text-align: center;
             table-layout: fixed;
             line-height: normal;
         }
         .schedule-table th, .schedule-table td {
             border: 1px solid #000;
-            padding: 1.5px 2px;
+            padding: 0.5px 1px; /* Padding dirapatkan */
             vertical-align: middle;
-            height: 12px; 
+            height: 10px; /* Tinggi baris dikurangi dari 12px */
             box-sizing: border-box;
             overflow: hidden;
         }
@@ -248,18 +248,28 @@
                         </thead>
                         <tbody>
                             <tr><td rowspan="5" style="font-weight:bold;">Senin/ 30 Nov</td><td>1</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">PAIBP</td></tr>
-                            <tr><td></td><td>Sesi 1, 2, 3</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
-                            <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">INFORMATIKA</td></tr>
-                            <tr><td></td><td>Sesi 1, 2, 3</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
-                            <tr><td>3</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">PJOK</td></tr>
+                            <tr><td></td><td>09.00-09.15</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>2</td><td>09.15-10.45</td><td style="text-align:left;">INFORMATIKA</td></tr>
+                            <tr><td></td><td>10.45-11.00</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>3</td><td>11.00-12.30</td><td style="text-align:left;">PJOK</td></tr>
                             
-                            <tr><td rowspan="3" style="font-weight:bold;">Selasa/ 1 Des</td><td>1</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">IPA</td></tr>
-                            <tr><td></td><td>Sesi 1, 2, 3</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
-                            <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">SENI BUDAYA</td></tr>
+                            <tr><td rowspan="3" style="font-weight:bold;">Selasa/ 1 Des</td><td>1</td><td>07.30-09.30</td><td style="text-align:left;">IPA</td></tr>
+                            <tr><td></td><td>09.30-09.45</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>2</td><td>09.45-11.15</td><td style="text-align:left;">SENI BUDAYA</td></tr>
                             
-                            <tr><td rowspan="3" style="font-weight:bold;">Rabu/ 2 Des</td><td>1</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">MATEMATIKA</td></tr>
-                            <tr><td></td><td>Sesi 1, 2, 3</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
-                            <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">PPKn</td></tr>
+                            <tr><td rowspan="3" style="font-weight:bold;">Rabu/ 2 Des</td><td>1</td><td>07.30-09.30</td><td style="text-align:left;">MATEMATIKA</td></tr>
+                            <tr><td></td><td>09.30-09.45</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>2</td><td>09.45-11.15</td><td style="text-align:left;">PPKn</td></tr>
+
+                            <!-- Tambahan Hari Kamis -->
+                            <tr><td rowspan="3" style="font-weight:bold;">Kamis/ 3 Des</td><td>1</td><td>07.30-09.30</td><td style="text-align:left;">BAHASA INDONESIA</td></tr>
+                            <tr><td></td><td>09.30-09.45</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>2</td><td>09.45-11.15</td><td style="text-align:left;">IPS</td></tr>
+
+                            <!-- Tambahan Hari Jumat -->
+                            <tr><td rowspan="3" style="font-weight:bold;">Jumat/ 4 Des</td><td>1</td><td>07.30-09.00</td><td style="text-align:left;">BAHASA SUNDA</td></tr>
+                            <tr><td></td><td>09.00-09.15</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
+                            <tr><td>2</td><td>09.15-10.45</td><td style="text-align:left;">BAHASA INGGRIS</td></tr>
                         </tbody>
                     </table>
                 </div>
