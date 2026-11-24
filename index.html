@@ -162,6 +162,11 @@
                 <label>Upload TTD & Stempel (PNG)</label>
                 <input type="file" id="input-ttd" accept="image/png">
             </div>
+            <!-- Tambahan Input Gambar QR/Barcode -->
+            <div class="form-group">
+                <label>Upload Gambar QR / Barcode (Opsional)</label>
+                <input type="file" id="input-gambar-qr" accept="image/png, image/jpeg">
+            </div>
         </div>
 
         <div class="btn-group">
@@ -190,6 +195,7 @@
     let pesertaList = [];
     let kopData = null;
     let ttdData = null;
+    let gambarQrData = null; // State baru untuk gambar QR
 
     // === ELEMEN DOM ===
     const kartuContainer = document.getElementById('kartu-container');
@@ -215,6 +221,11 @@
                 ? `<img src="${kopData}" style="width: 100%; display: block;" alt="Kop Surat">` 
                 : `<div style="text-align:center; font-size:8px; padding: 10px; border-bottom: 1px solid #000;">[Kop Surat Belum Diupload]</div>`;
 
+            // Logika Pengganti QR Code
+            const qrHTML = gambarQrData 
+                ? `<img src="${gambarQrData}" style="width: 35px; height: 35px; object-fit: contain;" alt="QR/Barcode">` 
+                : `<div id="qr-${index}" style="width: 30px; height: 30px;"></div>`;
+
             card.innerHTML = `
                 <div style="padding: 2px 4px 0 4px; margin-bottom: 1px;">
                     ${kopHTML}
@@ -237,7 +248,7 @@
                     </div>
 
                     <div style="display: flex; align-items: flex-start; justify-content: center; flex-shrink: 0;">
-                        <div id="qr-${index}" style="width: 30px; height: 30px;"></div>
+                        ${qrHTML}
                     </div>
                 </div>
 
@@ -261,12 +272,10 @@
                             <tr><td></td><td>-</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
                             <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">PPKn</td></tr>
 
-                            <!-- Tambahan Hari Kamis -->
                             <tr><td rowspan="3" style="font-weight:bold;">Kamis/ 3 Des</td><td>1</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">BAHASA INDONESIA</td></tr>
                             <tr><td></td><td>-</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
                             <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">IPS</td></tr>
 
-                            <!-- Tambahan Hari Jumat -->
                             <tr><td rowspan="3" style="font-weight:bold;">Jumat/ 4 Des</td><td>1</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">BAHASA SUNDA</td></tr>
                             <tr><td></td><td>-</td><td class="bg-gray" style="text-align:left;">ISTIRAHAT</td></tr>
                             <tr><td>2</td><td>Sesi 1, 2, 3</td><td style="text-align:left;">BAHASA INGGRIS</td></tr>
@@ -274,13 +283,11 @@
                     </table>
                 </div>
 
-                <!-- Perbaikan TTD agar tidak terpotong -->
                 <div style="padding: 2px 10px 5px 10px; display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; border-top: 1px dashed #ccc;">
                     <div style="font-size: 6px; color: #333; padding-bottom: 2px;">
                         Subang, ${new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}
                     </div>
                     
-                    <!-- Wadah TTD diperbaiki -->
                     <div style="text-align: right; max-width: 50%; line-height: 0;">
                         ${ttdData ? `<img src="${ttdData}" alt="TTD" style="max-height: 45px; width: auto; object-fit: contain; display: block; margin-left: auto;">` : ''}
                     </div>
@@ -289,16 +296,19 @@
 
             kartuContainer.appendChild(card);
 
-            setTimeout(() => {
-                try {
-                    const qr = qrcode(0, 'H');
-                    qr.addData(p.nomor);
-                    qr.make();
-                    document.getElementById(`qr-${index}`).innerHTML = qr.createImgTag(1, 0);
-                } catch (e) {
-                    console.error("QR Error:", e);
-                }
-            }, 10);
+            // Render QR Code otomatis hanya jika user belum upload gambar QR
+            if (!gambarQrData) {
+                setTimeout(() => {
+                    try {
+                        const qr = qrcode(0, 'H');
+                        qr.addData(p.nomor);
+                        qr.make();
+                        document.getElementById(`qr-${index}`).innerHTML = qr.createImgTag(1, 0);
+                    } catch (e) {
+                        console.error("QR Error:", e);
+                    }
+                }, 10);
+            }
         });
     }
 
@@ -332,12 +342,27 @@
         }
     });
 
+    // Upload Gambar QR/Barcode Statis
+    document.getElementById('input-gambar-qr').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                gambarQrData = ev.target.result;
+                renderKartu();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            gambarQrData = null;
+            renderKartu();
+        }
+    });
+
     // === TOMBOL CETAK / SIMPAN PDF ===
     document.getElementById('btn-download').addEventListener('click', () => {
         if (pesertaList.length === 0) return alert('Tidak ada data.');
         
         // Memicu dialog print bawaan browser.
-        // User cukup memilih "Save as PDF" dan memastikan ukuran kertas F4.
         window.print();
     });
 
